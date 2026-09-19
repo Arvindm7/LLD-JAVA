@@ -85,7 +85,6 @@ class StripePaymentGateway implements PaymentGatewway{
         System.out.println("Processing payment of amount: " + amount + " through Stripe");
     }
 }
- 
 class PayPalPaymentGateway implements PaymentGatewway{
     @Override
     public void processPayment(double amount) {
