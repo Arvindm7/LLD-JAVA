@@ -1,6 +1,12 @@
 
-//singleton pattern - Eager Loading
-// thread safe - no synchronization needed
+// Singleton Pattern
+//
+// A singleton allows only one object of a class to exist and provides a
+// global access point through getInstance(). This file demonstrates four
+// common ways to implement it.
+
+// Eager loading: the instance is created when the class is loaded.
+// Thread-safe because class initialization is handled by the JVM.
 class CompilerEager {
 
     private static final CompilerEager compiler = new CompilerEager();
@@ -9,13 +15,15 @@ class CompilerEager {
     }
 
     public static CompilerEager getInstance() {
+        // Every call returns the same eagerly-created object.
         return compiler;
     }
 
 }
 
-//Lazy Loading - Singleton Pattern
-// thread safe - synchronized method
+// Lazy loading: create the object only when it is first requested.
+// The synchronized method makes initialization thread-safe, but every call
+// also pays the synchronization cost.
 class CompilerLazy {
 
     private static CompilerLazy compilerLazy;
@@ -24,6 +32,7 @@ class CompilerLazy {
     }
 
     public static synchronized CompilerLazy getInstance() {
+        // The null check ensures construction happens only once.
         if (compilerLazy == null) {
             compilerLazy = new CompilerLazy();
         }
@@ -32,8 +41,9 @@ class CompilerLazy {
 
 }
 
-//Lazy Loading - double checked locking - Singleton Pattern
-// thread safe - synchronized block
+// Lazy loading with double-checked locking.
+// Most calls avoid synchronization after the instance has been created.
+// Note: a production implementation should make the shared field volatile.
 class CompilerLazyDoubleChecked {
 
     private static CompilerLazyDoubleChecked compilerLazyDoubleChecked;
@@ -42,8 +52,10 @@ class CompilerLazyDoubleChecked {
     }
 
     public static CompilerLazyDoubleChecked getInstance() {
+        // First check avoids locking when initialization is already complete.
         if (compilerLazyDoubleChecked == null) {
             synchronized (CompilerLazyDoubleChecked.class) {
+                // The second check prevents two threads from creating objects.
                 if (compilerLazyDoubleChecked == null) {
                     compilerLazyDoubleChecked = new CompilerLazyDoubleChecked();
                 }
@@ -54,8 +66,9 @@ class CompilerLazyDoubleChecked {
 
 }
 
-//lazy Loading - Bill Pugh Singleton Pattern
-// thread safe - no synchronization needed
+// Lazy loading with the Bill Pugh approach.
+// The nested class is initialized only when getInstance() uses it, and JVM
+// class initialization provides thread safety without explicit locking.
 class CompilerBillPugh {
 
     private CompilerBillPugh() {
@@ -66,6 +79,7 @@ class CompilerBillPugh {
     }
 
     public static CompilerBillPugh getInstance() {
+        // Accessing the helper triggers lazy, thread-safe initialization.
         return SingletonHelper.compiler;
     }
 
@@ -73,6 +87,8 @@ class CompilerBillPugh {
 
 public class SingletonPattern {
     public static void main(String[] args) {
+        // Request each implementation twice to demonstrate that both calls
+        // refer to the same singleton instance.
         CompilerEager compilerEager = CompilerEager.getInstance();
         CompilerEager compilerEager2 = CompilerEager.getInstance();
 
