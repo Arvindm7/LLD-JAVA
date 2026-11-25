@@ -1,4 +1,4 @@
-# Rate Limiter → Distributed Rate Limiter (Atlassian prep)
+# Rate Limiter → Distributed Rate Limiter
 
 Interview format: **20 min coding + 15 min system design**. The classic follow-up chain is:
 *"Code a rate limiter" → "Now make it work across many servers."*
@@ -34,9 +34,9 @@ java RateLimiterDemo
 > Single-node: `ConcurrentHashMap<key, state>` + lock per key.
 > Distributed: move state to Redis, make check-and-update **atomic** (Lua script).
 
-## Atlassian-flavoured context (use it in the interview!)
+## context (use it in the interview!)
 
-Atlassian runs multi-tenant cloud products (Jira, Confluence, Bitbucket). Real concerns:
+runs multi-tenant cloud products (Jira, Confluence, Bitbucket). Real concerns:
 - **Per-tenant (per-site) fairness** – one noisy customer must not hurt others.
 - **Different limits per plan/endpoint** – e.g. REST API vs. webhooks.
 - **Cost-based limiting** – an expensive search "costs" more tokens than a GET.
