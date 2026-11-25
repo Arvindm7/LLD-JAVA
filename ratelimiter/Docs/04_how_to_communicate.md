@@ -76,7 +76,7 @@ This **sets up the system design round** and shows you're ahead.
 - 1 M rps; Redis ≈ 100 k ops/s/shard → ~10–20 shards (with headroom).
 - Added latency: ~0.5–1 ms in-region.
 
-## D. Atlassian-specific angles
+## D
 - **Multi-tenant**: key by cloud site/tenant; protect from noisy neighbours.
 - **Tiered by product/plan/endpoint**; cost-based (heavy JQL search costs more tokens).
 - **Customer-friendly**: Retry-After headers, clear docs, dry-run.
